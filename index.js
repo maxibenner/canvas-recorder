@@ -72,7 +72,6 @@ app.get("/process", async function (req, res) {
 					// Set delete timer
 					setTimeout(() => {
 						helpers.removeDir(`./tmp/${query.sessionId}`);
-						console.log("[Server] User directory has been deleted.");
 					}, 20000);
 
 					res.send({
@@ -85,7 +84,6 @@ app.get("/process", async function (req, res) {
 					// Set delete timer
 					setTimeout(() => {
 						helpers.removeDir(`./tmp/${query.sessionId}`);
-						console.log("[Server] User directory has been deleted.");
 					}, 20000);
 
 					res.send({

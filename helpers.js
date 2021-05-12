@@ -22,7 +22,7 @@ const removeDir = function (path, deleteParentDir) {
 			}
 		}
 	} else {
-		console.log("Directory path not found.");
+		console.log("[Server] User directory has been deleted.");
 	}
 };
 exports.removeDir = removeDir;

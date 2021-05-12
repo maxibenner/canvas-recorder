@@ -50,16 +50,15 @@ app.get("/process", async function (req, res) {
 	if (!query.sessionId) {
 		res.send({
 			code: 400,
-			message: "So session id specified",
+			message: "No session id provided",
 			url: null,
 		});
-		if (!fs.existsSync(`./tmp/${query.sessionId}`)) {
-			res.send({
-				code: 400,
-				message: "No such session",
-				url: null,
-			});
-		}
+	} else if (!fs.existsSync(`./tmp/${query.sessionId}`)) {
+		res.send({
+			code: 400,
+			message: "No such session",
+			url: null,
+		});
 	}
 
 	helpers

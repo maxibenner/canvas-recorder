@@ -53,47 +53,49 @@ app.get("/process", async function (req, res) {
 			message: "No session id provided",
 			url: null,
 		});
-	} else if (!fs.existsSync(`./tmp/${query.sessionId}`)) {
-		res.send({
-			code: 400,
-			message: "No such session",
-			url: null,
-		});
-	}
-
-	helpers
-		.pngsToMp4(
-			`./tmp/${query.sessionId}/%d.png`,
-			`./tmp/${query.sessionId}/${query.sessionId}.mp4`,
-			query.fps,
-			query.duration
-		)
-		.then(() => {
-			// Set delete timer
-			setTimeout(() => {
-				helpers.removeDir(`./tmp/${query.sessionId}`);
-				console.log("[Server] User directory has been deleted.");
-			}, 20000);
-
-			res.send({
-				code: 200,
-				message: "Converted to mp4",
-				url: `./tmp/${query.sessionId}/${query.sessionId}.mp4`,
-			});
-		})
-		.catch(() => {
-			// Set delete timer
-			setTimeout(() => {
-				helpers.removeDir(`./tmp/${query.sessionId}`);
-				console.log("[Server] User directory has been deleted.");
-			}, 20000);
-
+	} else {
+		if (!fs.existsSync(`./tmp/${query.sessionId}`)) {
 			res.send({
 				code: 400,
-				message: "Problem converting images",
+				message: "No such session",
 				url: null,
 			});
-		});
+		} else {
+			helpers
+				.pngsToMp4(
+					`./tmp/${query.sessionId}/%d.png`,
+					`./tmp/${query.sessionId}/${query.sessionId}.mp4`,
+					query.fps,
+					query.duration
+				)
+				.then(() => {
+					// Set delete timer
+					setTimeout(() => {
+						helpers.removeDir(`./tmp/${query.sessionId}`);
+						console.log("[Server] User directory has been deleted.");
+					}, 20000);
+
+					res.send({
+						code: 200,
+						message: "Converted to mp4",
+						url: `./tmp/${query.sessionId}/${query.sessionId}.mp4`,
+					});
+				})
+				.catch(() => {
+					// Set delete timer
+					setTimeout(() => {
+						helpers.removeDir(`./tmp/${query.sessionId}`);
+						console.log("[Server] User directory has been deleted.");
+					}, 20000);
+
+					res.send({
+						code: 400,
+						message: "Problem converting images",
+						url: null,
+					});
+				});
+		}
+	}
 });
 
 console.log(`Listening on port ${port}`);

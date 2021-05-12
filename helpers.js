@@ -49,6 +49,10 @@ async function pngsToMp4(inputPath, outputPath, fps, duration) {
 	// Get image dimensions
 	await new Promise((resolve, reject) => {
 		ffmpeg(path).ffprobe(0, (err, data) => {
+			if (err) {
+				console.log(err);
+				reject();
+			}
 			if (data) {
 				const width = data.streams[0].width;
 				const height = data.streams[0].height;
@@ -64,8 +68,6 @@ async function pngsToMp4(inputPath, outputPath, fps, duration) {
 						resolve();
 					})
 					.save(outputPath);
-			} else {
-				reject();
 			}
 		});
 	});

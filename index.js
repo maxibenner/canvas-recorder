@@ -34,9 +34,16 @@ app.post("/add_frame", function (req, res) {
 		// Create session dir and save to disk
 		if (fs.existsSync(`./tmp/${body.sessionId}`)) {
 			helpers.dataUriToDisk(body.data, `tmp/${body.sessionId}`);
+			// Remove timeout delete
+			eval(`var ${body.sessionId} = clearTimeout(${body.sessionId})`);
 		} else {
 			fs.mkdir(`./tmp/${body.sessionId}`, () => {
 				helpers.dataUriToDisk(body.data, `tmp/${body.sessionId}`);
+
+				// Create timeout delete
+				eval(
+					`var ${body.sessionId} = setTimeout(()=>{helpers.removeDir("./tmp/${body.sessionId}")},60000)`
+				);
 			});
 		}
 

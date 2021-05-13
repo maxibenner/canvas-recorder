@@ -1,5 +1,4 @@
 const fs = require("fs");
-var ffmpeg = require("fluent-ffmpeg");
 const { execSync } = require("child_process");
 
 const removeDir = function (path, deleteParentDir) {

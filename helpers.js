@@ -49,28 +49,17 @@ async function pngsToMp4(inputPath, outputPath, fps, duration) {
 
 	// Get image dimensions
 	await new Promise((resolve, reject) => {
-
 		const dimensions = execSync(
 			`ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0  ${path}`
 		).toString();
 
 		//Convert pngs to video
-		console.log(fps, dimensions, inputPath, outputPath);
 		execSync(
 			`ffmpeg -f image2 -framerate ${fps} -i ${inputPath} -pix_fmt yuv420p -vf "pad=ceil(iw/2)*2:ceil(ih/2)*2" ${outputPath}`
 		);
 
+		// Resolve promise
 		resolve();
-		// ffmpeg(inputPath)
-		// 	.fps(fps)
-		// 	.outputOptions("-pix_fmt yuv420p")
-		// 	.size(`${width}x${height}`)
-		// 	.videoBitrate("8000k", true)
-		// 	.on("end", () => {
-		// 		console.log("[Server] File has been converted successfully");
-		// 		resolve();
-		// 	})
-		// 	.save(outputPath);
 	});
 
 	return;

@@ -33,25 +33,25 @@ app.post("/add_frame", function (req, res) {
 				code: 400,
 				message: "Missing data",
 			});
-		}
-
-		// Create session dir and save to disk
-		if (fs.existsSync(`./tmp/${body.sessionId}`)) {
-			helpers.dataUriToDisk(body.data, `tmp/${body.sessionId}`);
-			// Remove timeout delete
-			eval(`var ${body.sessionId} = clearTimeout(${body.sessionId})`);
 		} else {
-			fs.mkdir(`./tmp/${body.sessionId}`, () => {
+			// Create session dir and save to disk
+			if (fs.existsSync(`./tmp/${body.sessionId}`)) {
 				helpers.dataUriToDisk(body.data, `tmp/${body.sessionId}`);
+				// Remove timeout delete
+				eval(`var ${body.sessionId} = clearTimeout(${body.sessionId})`);
+			} else {
+				fs.mkdir(`./tmp/${body.sessionId}`, () => {
+					helpers.dataUriToDisk(body.data, `tmp/${body.sessionId}`);
 
-				// Create timeout delete
-				eval(
-					`var ${body.sessionId} = setTimeout(()=>{helpers.removeDir("./tmp/${body.sessionId}")},60000)`
-				);
-			});
+					// Create timeout delete
+					eval(
+						`var ${body.sessionId} = setTimeout(()=>{helpers.removeDir("./tmp/${body.sessionId}")},60000)`
+					);
+				});
+			}
+
+			res.send({ code: 200, message: "Frame added to batch" });
 		}
-
-		res.send({ code: 200, message: "Frame added to batch" });
 	});
 });
 

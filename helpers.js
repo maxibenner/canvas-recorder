@@ -31,7 +31,7 @@ async function dataUriToDisk(data, path) {
 	//const fileName = path.split('/')
 	fs.readdir(path, (err, files) => {
 		fs.writeFile(
-			`${path}/${files.length}.png`,
+			`${path}/${files.length + 1}.png`,
 			data.split(";base64,").pop(),
 			{ encoding: "base64" },
 			(err) => {

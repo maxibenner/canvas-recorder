@@ -2,11 +2,9 @@
 const express = require("express");
 const app = express();
 const fs = require("fs");
-//const cors = require("cors");
 const helpers = require("./helpers");
 
 const port = 5000;
-//app.use(cors());
 app.use("/tmp", express.static("tmp"));
 
 app.listen(port);

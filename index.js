@@ -43,7 +43,7 @@ app.post("/add_frame", function (req, res) {
 
 					// Create timeout delete
 					eval(
-						`var ${body.sessionId} = setTimeout(()=>{helpers.removeDir("./tmp/${body.sessionId}")},60000)`
+						`var ${body.sessionId} = setTimeout(()=>{helpers.removeDir("./tmp/${body.sessionId}")},100000)`
 					);
 				});
 			}
@@ -81,7 +81,7 @@ app.get("/process", async function (req, res) {
 					// Set delete timer
 					setTimeout(() => {
 						helpers.removeDir(`./tmp/${query.sessionId}`);
-					}, 20000);
+					}, 100000);
 
 					res.send({
 						code: 200,
@@ -93,7 +93,7 @@ app.get("/process", async function (req, res) {
 					// Set delete timer
 					setTimeout(() => {
 						helpers.removeDir(`./tmp/${query.sessionId}`);
-					}, 20000);
+					}, 100000);
 
 					res.send({
 						code: 400,

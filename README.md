@@ -1,4 +1,4 @@
-# Recorder
+# Canvas Recorder
 Express server that accepts a set of images and converts them into an h264 encoded mp4 video. Commonly used to record a canvas element with a consistent frame rate.
 
 ## How to use
